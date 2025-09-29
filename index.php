@@ -1,3 +1,7 @@
+<!-- index.php -->
+<?php
+// Se precisar futuramente, pode colocar verificação de sessão aqui
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -42,7 +46,7 @@
             </h2>
             <p class="text-xl md:text-2xl text-gray-700 mb-8">Um calendário educacional que une estudantes e professores
                 em um ambiente colaborativo, prevenindo sobrecargas e promovendo aprendizado equilibrado.</p>
-           <a href="login.html" class="bg-blue-600 text-white px-8 py-4 rounded-full text-lg hover:bg-blue-700 transition inline-block text-center">Comece Agora</a>
+           <a href="login.php" class="bg-blue-600 text-white px-8 py-4 rounded-full text-lg hover:bg-blue-700 transition inline-block text-center">Comece Agora</a>
         </div>
     </section>
 
@@ -149,7 +153,7 @@
         <div class="max-w-4xl mx-auto px-4">
             <h3 class="text-3xl font-bold mb-4">Junte-se à Revolução Educacional</h3>
             <p class="text-xl mb-8">Registre-se gratuitamente e transforme a gestão de estudos e tarefas.</p>
-            <a href="login.html" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg hover:bg-gray-100 transition inline-block text-center">Registrar Agora</a>
+            <a href="login.php" class="bg-white text-blue-600 px-8 py-4 rounded-full text-lg hover:bg-gray-100 transition inline-block text-center">Registrar Agora</a>
     </section>
 
     <!-- Footer -->
@@ -176,5 +180,3 @@
 </body>
 
 </html>
-</content>
-</create_file>
