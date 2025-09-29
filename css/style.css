@@ -1,0 +1,42 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-bg {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(0, 123, 255, 0.1)), url('https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8671da36-3fb1-440d-a4db-019ff806d83e.png');
+    background-size: cover;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.task-card {
+    transition: transform 0.3s;
+}
+
+.task-card:hover {
+    transform: scale(1.05);
+}
+
+.limit-progress {
+    width: 80%;
+    height: 10px;
+    background: #e5e7eb;
+    border-radius: 5px;
+}
+
+.limit-fill {
+    height: 100%;
+    background: #10b981;
+    border-radius: 5px;
+}
