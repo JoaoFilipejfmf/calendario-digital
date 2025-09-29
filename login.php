@@ -32,7 +32,7 @@
         </form>
 
         <!-- Cadastro -->
-        <form id="registerForm" action="cadastra.php" method="post" class="space-y-6 hidden">
+        <form id="registerForm" action="registra.php" method="post" class="space-y-6 hidden">
             <div>
                 <label for="registerName" class="block text-gray-700 mb-1">Nome Completo</label>
                 <input type="text" id="registerName" name="registerName" required placeholder="Seu nome" 
