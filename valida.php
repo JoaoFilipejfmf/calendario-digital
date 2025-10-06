@@ -1,28 +1,22 @@
 <?php
 session_start();
+include 'conexao.php'; // Arquivo com conexão ao banco
 
-$email = $_POST['loginEmail'];
-$senha = $_POST['loginPassword'];
+$email = $_POST['email'];
+$senha = $_POST['senha'];
 
-include 'conexao.php';
+// Busca o usuário
+$sql = "SELECT * FROM usuarios WHERE email = ?";
+$stmt = $conec->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+$usuario = $result->fetch_assoc();
 
-if ($conectou) {
-    
-    $sql = "SELECT * FROM usuarios WHERE email = '$email' AND senha = '$senha'";
-    $buscar = mysqli_query($conec, $sql);
-
-    if (mysqli_num_rows($buscar) > 0) {
-        $dados = mysqli_fetch_array($buscar);
-
-        $_SESSION['email'] = $dados['email'];
-        //$_SESSION['permissao'] = $dados['permissao'] ?? "comum"; // se não tiver no BD, assume "comum"
-
-        header("Location: teste.php");
-        exit;
-    } else {
-        echo "<script>alert('Erro nos dados do Usuário/Senha!');</script>";
-        echo "<meta http-equiv='refresh' content='0;URL=index.php'>";
-    }
+if ($usuario && password_verify($senha, $usuario['senha'])) {
+    $_SESSION['usuario'] = $usuario['nome'];
+    header("Location: teste.php"); // Redireciona após login
+    exit;
+} else {
+    echo "<script>alert('Email ou senha incorretos.'); window.location='login.php';</script>";
 }
-
-?>
