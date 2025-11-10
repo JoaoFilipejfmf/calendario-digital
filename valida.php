@@ -1,22 +1,22 @@
 <?php
 session_start();
-include 'conexao.php'; // Arquivo com conexão ao banco
+require 'conexao.php'; // Arquivo que faz o R::setup()
 
-$email = $_POST['email'];
-$senha = $_POST['senha'];
+// Recebe os dados do formulário
+$email = trim($_POST['email']);
+$senha = $_POST['senha'];  // Senha digitada
 
-// Busca o usuário
-$sql = "SELECT * FROM usuarios WHERE email = ?";
-$stmt = $conec->prepare($sql);
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-$usuario = $result->fetch_assoc();
+// Busca o usuário pelo e-mail
+$usuario = R::findOne('usuarios', ' email = ? ', [$email]);
 
-if ($usuario && password_verify($senha, $usuario['senha'])) {
-    $_SESSION['usuario'] = $usuario['nome'];
+// Verifica se o usuário existe e se a senha digitada confere com a senha no banco
+if ($usuario && password_verify($senha, $usuario->senha)) {
+    // Login bem-sucedido
+    $_SESSION['usuario'] = $usuario->nome;
     header("Location: teste.php"); // Redireciona após login
     exit;
 } else {
+    // Falha no login
     echo "<script>alert('Email ou senha incorretos.'); window.location='login.php';</script>";
 }
+?>
