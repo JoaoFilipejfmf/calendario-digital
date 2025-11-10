@@ -12,8 +12,8 @@ $usuario = R::findOne('usuarios', ' email = ? ', [$email]);
 // Verifica se o usuário existe e se a senha digitada confere com a senha no banco
 if ($usuario && password_verify($senha, $usuario->senha)) {
     // Login bem-sucedido
-    $_SESSION['usuario'] = $usuario->nome;
-    header("Location: teste.php"); // Redireciona após login
+    $_SESSION['usuario'] = $usuario;
+    header("Location: atividades.php"); // Redireciona após login
     exit;
 } else {
     // Falha no login
