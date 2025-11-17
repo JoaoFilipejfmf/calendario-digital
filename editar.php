@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
 
-        <a href="perfil.php" class="mt-4 inline-block text-blue-600 hover:underline">Voltar ao Perfil</a>
+        <a href="atividades.php" class="mt-4 inline-block text-blue-600 hover:underline">Voltar ao Perfil</a>
     </div>
 </body>
 </html>
