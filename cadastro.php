@@ -13,7 +13,7 @@ if ($senha !== $confirma) {
 }
 
 // 2️⃣ — Verifica se o email já está cadastrado
-$usuarioExistente = R::findOne('usuarios', ' email = ? ', [$email]);
+$usuarioExistente = R::findOne('usuario', ' email = ? ', [$email]);
 
 if ($usuarioExistente) {
     echo "<script>alert('Email já cadastrado.'); window.location='login.php';</script>";
@@ -24,7 +24,7 @@ if ($usuarioExistente) {
 $senhaSegura = password_hash($senha, PASSWORD_DEFAULT);
 
 // 4️⃣ — Cria e armazena o novo usuário
-$usuario = R::dispense('usuarios'); // Cria um "bean" da tabela 'usuarios'
+$usuario = R::dispense('usuario'); // Cria um "bean" da tabela 'usuarios'
 $usuario->nome = $nome;
 $usuario->email = $email;
 $usuario->senha = $senhaSegura;
