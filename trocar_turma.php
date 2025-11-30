@@ -4,7 +4,7 @@ session_start();
 
 header('Content-Type: application/json');
 
-if (!isset($_SESSION['usuario_id'])) {
+if (!isset($_SESSION['usuario'])) {
     echo json_encode(['success' => false, 'error' => 'Usuário não logado']);
     exit;
 }

@@ -16,17 +16,17 @@ $usuario = $_SESSION['usuario'];
 // SQL com LEFT JOIN:
 // 1. Seleciona todas as colunas de 'turma'.
 // 2. Seleciona a coluna 'administrador' da tabela de ligação e a renomeia para 'is_admin'.
-// 3. O LEFT JOIN garante que todas as turmas apareçam, mesmo sem correspondência na participacao_turma.
+// 3. O LEFT JOIN garante que todas as turmas apareçam, mesmo sem correspondência na participacaoturma.
 // 4. A condição de JOIN é filtrada pelo ID do usuário específico.
 $sql = "
     SELECT 
         turma.*, 
-        participacao_turma.administrador AS is_admin 
+        participacaoturma.administrador AS is_admin 
     FROM 
         turma
-    LEFT JOIN 
-        participacao_turma ON participacao_turma.turma_id = turma.id 
-        AND participacao_turma.usuario_id = ?
+    INNER JOIN 
+        participacaoturma ON participacaoturma.turma_id = turma.id 
+        AND participacaoturma.usuario_id = ?
     ORDER BY
         turma.nome ASC
 ";
@@ -38,10 +38,10 @@ $turmas_usuario = R::getAll($sql, $parametros);
 
 // $turmas agora é um array de arrays associativos do PHP
 
-if (!isset($_SESSION['turma_atual']) and count($turmas_usuario) > 0) {
-    $turma = $_SESSION['turma_atual'] = $turmas_usuario[0];
-    $isAdmin = $turma['is_admin'];
-} else {
+if (count($turmas_usuario) > 0) {
+    if (!isset($_SESSION['turma_atual'])) {
+        $_SESSION['turma_atual'] = $turmas_usuario[0];
+    }
     $turma = $_SESSION['turma_atual'];
     $isAdmin = $turma['is_admin'];
 }
@@ -59,7 +59,6 @@ $possui_turma = isset($_SESSION['turma_atual']);
 
     <script src="js/tailwind.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
-    <script src="js/script.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -79,9 +78,9 @@ $possui_turma = isset($_SESSION['turma_atual']);
 </head>
 
 <script>
-function minhaf() {
-    console.log("<?= count($turmas_usuario) > 0 ? "boa" : "vish" ?>");
-}
+    function minhaf() {
+        console.log("<?= count($turmas_usuario) > 0 ? "boa" : "vish" ?>");
+    }
 </script>
 
 <body class="bg-gray-100">
@@ -91,9 +90,9 @@ function minhaf() {
             <div class="flex items-center">
                 <i class="fas fa-calendar-alt text-2xl mr-3"></i>
                 <h1 class="text-xl font-bold">Calendário Escolar Digital</h1>
-                <!-- <?php if ($turma_usuario): ?>
-                <span class="ml-4 text-sm bg-blue-500 px-2 py-1 rounded">Turma: <?= htmlspecialchars($turma_usuario['nome']) ?></span>
-                <?php endif; ?> -->
+                <?php if (isset($turma)): ?>
+                <span class="ml-4 text-sm bg-blue-500 px-2 py-1 rounded">Turma: <?= htmlspecialchars($turma['nome']) ?></span>
+                <?php endif; ?>
             </div>
             <div class="flex items-center space-x-4">
                 <span class="hidden md:inline">Olá, <?= htmlspecialchars($usuario['nome']) ?></span>
@@ -106,7 +105,7 @@ function minhaf() {
                     </button>
                     <div id="userMenu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
                         <a href="perfil.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Perfil</a>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="minhaf()">Turma: <?= $turma['nome'] ?></a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="minhaf()">Turma: <?= $possui_turma ? $turma['nome'] : "Não definida" ?></a>
                         <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
                     </div>
                 </div>
@@ -137,7 +136,7 @@ function minhaf() {
                     </div>
 
                     <div class="mt-6">
-                        <button onclick="switchView('view-add')" id="addActivityBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center justify-center">
+                        <button onclick="AddActivityView.open()" id="addActivityBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md flex items-center justify-center hidden">
                             <i class="fas fa-plus mr-2"></i> Adicionar Atividade
                         </button>
                     </div>
@@ -149,7 +148,7 @@ function minhaf() {
             <div class="bg-white rounded-lg shadow-md max-w-4xl mx-auto">
                 <div class="flex justify-between items-center p-6 border-b bg-gray-50 rounded-t-lg">
                     <h3 class="text-xl font-bold text-gray-800">Detalhes da Atividade</h3>
-                    <button onclick="switchView('view-dashboard')" class="text-gray-600 hover:text-blue-600 flex items-center gap-2">
+                    <button onclick="ViewManager.switch('view-dashboard')" class="text-gray-600 hover:text-blue-600 flex items-center gap-2">
                         <i class="fas fa-arrow-left"></i> Voltar
                     </button>
                 </div>
@@ -197,7 +196,7 @@ function minhaf() {
             <div class="bg-white rounded-lg shadow-md max-w-3xl mx-auto">
                 <div class="flex justify-between items-center p-6 border-b bg-gray-50 rounded-t-lg">
                     <h3 class="text-xl font-bold text-gray-800">Nova Atividade</h3>
-                    <button onclick="switchView('view-dashboard')" class="text-gray-600 hover:text-blue-600 flex items-center gap-2">
+                    <button onclick="ViewManager.switch('view-dashboard')" class="text-gray-600 hover:text-blue-600 flex items-center gap-2">
                         <i class="fas fa-arrow-left"></i> Cancelar
                     </button>
                 </div>
@@ -276,10 +275,10 @@ function minhaf() {
                 </form>
 
                 <div class="flex justify-end p-6 border-t bg-gray-50 rounded-b-lg gap-3">
-                    <button onclick="switchView('view-dashboard')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-6 rounded-md transition duration-200">
+                    <button onclick="ViewManager.switch('view-dashboard')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 font-medium py-2 px-6 rounded-md transition duration-200">
                         Cancelar
                     </button>
-                    <button id="saveActivityBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-200 shadow-sm">
+                    <button id="saveActivityBtn" onclick="AddActivityView.save()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-md transition duration-200 shadow-sm">
                         Salvar Atividade
                     </button>
                 </div>
@@ -299,8 +298,8 @@ function minhaf() {
                     <p class="text-gray-600 mb-6">Selecione a turma que deseja visualizar:</p>
                     <div id="listaTurmas" class="grid grid-cols-1 gap-4">
                         <?php if (count($turmas_usuario) > 0) { ?>
-                            <?php foreach ($turmas_usuario as $turma) { ?>
-                                <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition <?= $turma['idturma'] == $turma_id ? 'bg-blue-50 border-blue-200' : '' ?>">
+                            <?php foreach ($turmas_usuario as $t) { ?>
+                                <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition <?= $turma['id'] == $t['id'] ? 'bg-blue-50 border-blue-200' : '' ?>">
                                     <div>
                                         <h4 class="font-bold text-lg"><?= htmlspecialchars($turma['nome']) ?></h4>
                                         <?php if ($turma['codigo']) { ?>
@@ -308,7 +307,7 @@ function minhaf() {
                                         <?php } ?>
                                     </div>
 
-                                    <?php if ($turma['idturma'] == $turma_id) { ?>
+                                    <?php if ($turma['id'] == $t['id']) { ?>
                                         <span class="bg-green-100 text-green-800 text-sm font-bold px-3 py-1 rounded-full">Atual</span>
                                     <?php } else { ?>
                                         <button onclick="TurmasView.trocar(<?= $turma['idturma'] ?>)" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded shadow-sm">
@@ -365,8 +364,8 @@ function minhaf() {
 
     <script>
         window.AppConfig = {
-            usuarioTurmaId: <?= $possui_turma ? 'true' : 'false' ?>,
-            isAdmin: true // Ou injecte via PHP
+            usuarioTurmaId: <?= $possui_turma ? $turma['id'] : 0 ?>,
+            isAdmin: <?= $possui_turma ? ($isAdmin ? "true" : "false") : "false" ?> // Ou injecte via PHP
         };
     </script>
 
@@ -375,6 +374,8 @@ function minhaf() {
     <script src="js/turmas_view.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/activity_view.js"></script>
+    <script src="js/add_activity_view.js"></script>
 </body>
 
 </html>

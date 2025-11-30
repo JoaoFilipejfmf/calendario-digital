@@ -2,34 +2,31 @@
 require_once 'conexao.php';
 header('Content-Type: application/json');
 
-$turma_id = isset($_GET['turma_id']) ? $_GET['turma_id'] : null;
+session_start();
 
-if (!$turma_id) {
-    echo json_encode([]);
+$turma = isset($_SESSION['turma_atual']) ? $_SESSION['turma_atual'] : null;
+
+if (!$turma) {
+    echo json_encode(['error' => 'coisa boa num é']);
     exit;
 }
 
 try {
     $atividades = R::getAll("
         SELECT 
-            a.idatividade as id,
+            a.id,
             a.titulo,
-            DATE(a.horario) as start,
-            d.cor as color,
-            t.nome as tipo_nome,
-            d.nome as disciplina_nome
+            a.tipo,
+            a.disciplina,
+            a.descricao,
+            a.horario_inicio,
+            a.horario_fim,
+            u.nome as professor_nome
         FROM atividade a
-        INNER JOIN tipo t ON a.tipo_idtipo = t.idtipo
-        INNER JOIN disciplina d ON a.disciplina_iddisciplina = d.iddisciplina
-        WHERE a.turma_idturma = ?
-        AND a.horario >= DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
-        ORDER BY a.horario
-    ", [$turma_id]);
-    
-    // Converter cor numérica para hexadecimal
-    foreach ($atividades as &$atividade) {
-        $atividade['color'] = numeroParaCor($atividade['color']);
-    }
+        INNER JOIN usuario u ON a.criado_por = u.id
+        WHERE a.turma = ?
+        ORDER BY a.horario_inicio
+    ", [$turma['id']]);
     
     echo json_encode($atividades);
     
