@@ -7,13 +7,13 @@ $email = trim($_POST['email']);
 $senha = $_POST['senha'];  // Senha digitada
 
 // Busca o usuário pelo e-mail
-$usuario = R::findOne('usuarios', ' email = ? ', [$email]);
+$usuario = R::findOne('usuario', ' email = ? ', [$email]);
 
 // Verifica se o usuário existe e se a senha digitada confere com a senha no banco
 if ($usuario && password_verify($senha, $usuario->senha)) {
     // Login bem-sucedido
     $_SESSION['usuario'] = $usuario;
-    header("Location: atividades.php"); // Redireciona após login
+    header("Location: main.php"); // Redireciona após login
     exit;
 } else {
     // Falha no login

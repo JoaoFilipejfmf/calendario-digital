@@ -1,23 +1,18 @@
 <?php
-session_start();
 require 'conexao.php'; // Arquivo que faz o R::setup()
 
+session_start();
+
 // Verifica se o usuário está logado
-if (!isset($_SESSION['usuario_id'])) {
+if (!isset($_SESSION['usuario'])) {
     // Caso não esteja logado, redireciona para o login
     header("Location: login.php");
     exit;
 }
 
 // Carrega as informações do usuário
-$usuario_id = $_SESSION['usuario_id'];
-$usuario = R::load('usuarios', $usuario_id);
+$usuario = $_SESSION['usuario'];
 
-// Verifica se o usuário foi encontrado
-if (!$usuario) {
-    echo "Usuário não encontrado!";
-    exit;
-}
 ?>
 
 <!DOCTYPE html>

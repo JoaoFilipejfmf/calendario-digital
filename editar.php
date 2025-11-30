@@ -10,7 +10,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 // Carrega as informações do usuário
 $usuario_id = $_SESSION['usuario_id'];
-$usuario = R::load('usuarios', $usuario_id);
+$usuario = R::load('usuario', $usuario_id);
 
 // Verifica se o usuário foi encontrado
 if (!$usuario) {
