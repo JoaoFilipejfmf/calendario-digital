@@ -116,21 +116,21 @@
                 alunos e foco no sucesso coletivo.</p>
             <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-8">
                 <div class="text-center">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6970a341-4208-4eff-81cd-275972c011bc.png"
+                    <img src="img/joaof.jpeg"
                         alt="Foto profissional de Maria Silva, educadora com experiência em pedagogia inovadora, sorrindo em um ambiente escolar"
                         class="w-32 h-32 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold">João Filipe</h4>
                     <p>Estudante do curso Técnico em Informática e Principal desenvolvedor</p>
                 </div>
                 <div class="text-center">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4a61631d-7953-42f1-a25b-6c7eb8667bb2.png"
+                    <img src="img/pedro.jpg"
                         alt="Foto profissional de João Pereira, desenvolvedor de software educacional, segurando um laptop em um escritório moderno"
                         class="w-32 h-32 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold">Pedro Lucas</h4>
                     <p>Estudante do curso Técnico em Informática</p>
                 </div>
                 <div class="text-center">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c689d857-e48e-44ff-8566-894a6d8fa689.png"
+                    <img src="img/luiz.jpg"
                         alt="Foto profissional de Ana Costa, designer UX com foco em interfaces intuitivas para educação, trabalhando em um tablet"
                         class="w-32 h-32 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold">Luiz Eduardo</h4>
@@ -138,7 +138,7 @@
                 </div>
                 <!-- Quarto Membro da Equipe -->
                 <div class="text-center">
-                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/e2ef0262-7017-4961-bbfb-6dcb4ae73a0d.png"
+                    <img src="img/joaov.jpg"
                         alt="Foto profissional de Carlos Mendes, psicólogo educacional especializado em bem-estar emocional de estudantes, em consultório com livros e plantas"
                         class="w-32 h-32 rounded-full mx-auto mb-4">
                     <h4 class="text-xl font-semibold">João Víctor</h4>
