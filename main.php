@@ -19,7 +19,35 @@ $usuarioId = $usuario->id;
 // 2. Seleciona a coluna 'administrador' da tabela de ligação e a renomeia para 'is_admin'.
 // 3. O LEFT JOIN garante que todas as turmas apareçam, mesmo sem correspondência na participacaoturma.
 // 4. A condição de JOIN é filtrada pelo ID do usuário específico.
-require_once "carregar_turma_sessao.php";
+$sql = "
+    SELECT 
+        turma.*, 
+        participacaoturma.administrador AS is_admin 
+    FROM 
+        turma
+    INNER JOIN 
+        participacaoturma ON participacaoturma.turma_id = turma.id 
+        AND participacaoturma.usuario_id = ?
+    ORDER BY
+        turma.nome ASC
+";
+
+$parametros = [$usuario->id];
+
+// Executa a consulta
+$turmas_usuario = R::getAll($sql, $parametros);
+
+// $turmas agora é um array de arrays associativos do PHP
+
+if (count($turmas_usuario) > 0) {
+    if (!isset($_SESSION['turma_atual'])) {
+        $_SESSION['turma_atual'] = $turmas_usuario[0];
+    }
+    $turma = $_SESSION['turma_atual'];
+    $isAdmin = $turma['is_admin'];
+}
+
+$possui_turma = isset($_SESSION['turma_atual']);
 
 ?>
 <!DOCTYPE html>
@@ -49,12 +77,6 @@ require_once "carregar_turma_sessao.php";
         }
     </style>
 </head>
-
-<script>
-    function minhaf() {
-        console.log("<?= count($turmas_usuario) > 0 ? "boa" : "vish" ?>");
-    }
-</script>
 
 <body class="bg-gray-100">
     <!-- Header -->

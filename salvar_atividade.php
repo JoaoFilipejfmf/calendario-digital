@@ -66,8 +66,8 @@ try {
 
     $qtdNaSemana = R::count('atividade', $sqlWeek, $paramsWeek);
 
-    if ($qtdNaSemana >= 10) {
-        throw new Exception("Limite semanal atingido! Já existem 10 atividades nesta semana ({$inicioSemana} a {$fimSemana}).");
+    if ($qtdNaSemana >= 7) {
+        throw new Exception("Limite semanal atingido! Já existem 7 atividades nesta semana ({$inicioSemana} a {$fimSemana}).");
     }
 
     // ==================================================================================

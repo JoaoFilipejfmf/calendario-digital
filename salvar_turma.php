@@ -79,9 +79,10 @@ try {
 
     $_SESSION['turma_atual'] = $turma;
     $_SESSION['turma_atual']['id'] = $id;
-    $isAdmin = true;
+    $_SESSION['turma_atual']['is_admin'] = true;
     $turma = $_SESSION['turma_atual'];
     $possui_turma = isset($_SESSION['turma_atual']);
+    
 
     // 8. Retorno Sucesso
     echo json_encode([

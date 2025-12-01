@@ -1,32 +1,34 @@
 const ClassSettingsView = {
     currentTurmaId: null,
 
-    openCreate: function() {
+    openCreate: function () {
         document.getElementById('formCreateClass').reset();
         ViewManager.switch('view-create-class');
     },
 
-    create: async function() {
+    create: async function () {
         const nome = document.getElementById('newClassName').value;
 
-        if(!nome) return alert("O nome é obrigatório");
+        if (!nome) return alert("O nome é obrigatório");
 
         try {
             const response = await fetch('salvar_turma.php', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ nome })
             });
             const data = await response.json();
-            
-            if(data.success) {
+
+            if (data.success) {
+                window.AppConfig.usuarioTurmaId = data.id;
+                window.AppConfig.isAdmin = true;
                 alert("Turma criada!");
                 // Recarrega a página para atualizar tudo ou troca para o dashboard da nova turma
                 location.reload();
             } else {
                 alert("Erro: " + data.error);
             }
-        } catch(e) { console.error(e); }
+        } catch (e) { console.error(e); }
     },
 
     openSettings: function () {
