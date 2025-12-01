@@ -19,18 +19,22 @@ if (!$turma_id) {
 
 // Verificar se o usuário pertence a esta turma
 $pertence_turma = R::getRow("
-    SELECT 1 
-    FROM usuario_participa_de_turma 
-    WHERE usuario_idusuario = ? AND turma_idturma = ?
-", [$_SESSION['usuario_id'], $turma_id]);
+    SELECT *
+    FROM participacaoturma 
+    WHERE usuario_id = ? AND turma_id = ?
+", [$_SESSION['usuario']->id, $turma_id]);
 
 if (!$pertence_turma) {
     echo json_encode(['success' => false, 'error' => 'Você não pertence a esta turma']);
     exit;
 }
 
+$turma = R::load('turma', $turma_id);
+$turmaArray = $turma->export();
+$turmaArray['is_admin'] = $pertence_turma['administrador'];
+
 // Atualizar a turma atual na sessão
-$_SESSION['turma_atual_id'] = $turma_id;
+$_SESSION['turma_atual'] = $turmaArray;
 
 echo json_encode(['success' => true]);
 ?>

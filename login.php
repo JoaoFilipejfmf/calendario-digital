@@ -1,3 +1,11 @@
+<?php
+require_once "conexao.php";
+
+session_start();
+if (isset($_SESSION['usuario'])) {
+    header('location: main.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
