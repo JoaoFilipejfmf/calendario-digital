@@ -84,7 +84,7 @@ $possui_turma = isset($_SESSION['turma_atual']);
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center">
                 <i class="fas fa-calendar-alt text-2xl mr-3"></i>
-                <h1 class="text-xl font-bold">Calendário Escolar Digital</h1>
+                <h1 class="text-xl font-bold">EduCalendar</h1>
                 <?php if (isset($turma)): ?>
                     <span id="header-class-name-badge" class="ml-4 text-sm bg-blue-500 px-2 py-1 rounded">Turma: <?= htmlspecialchars($turma['nome']) ?></span>
                 <?php endif; ?>
@@ -103,6 +103,7 @@ $possui_turma = isset($_SESSION['turma_atual']);
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="ViewManager.switch('view-turmas')">
                             Turma: <span id="header-class-name-dropdown"><?= $possui_turma ? htmlspecialchars($turma['nome']) : "Não definida" ?></span>
                         </a>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" onclick="ClassSettingsView.openSettings()">Configurar Turma</a>
                         <a href="logout.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sair</a>
                     </div>
                 </div>
@@ -120,9 +121,6 @@ $possui_turma = isset($_SESSION['turma_atual']);
 
                 <div class="lg:w-1/3 bg-white rounded-lg shadow-md p-4">
                     <h2 class="text-xl font-bold mb-4">Detalhes do Dia</h2>
-                    <button onclick="ClassSettingsView.openSettings()" class="text-gray-500 hover:text-gray-800" title="Ver Participantes / Configurações">
-                        <i class="fas fa-cog text-xl"></i>
-                    </button>
                     <div class="mb-6">
                         <h3 id="selectedDate" class="text-lg font-semibold text-blue-600">Selecione uma data</h3>
                     </div>

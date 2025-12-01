@@ -28,6 +28,7 @@ $usuario = R::dispense('usuario'); // Cria um "bean" da tabela 'usuario'
 $usuario->nome = $nome;
 $usuario->email = $email;
 $usuario->senha = $senhaSegura;
+$usuario->data_criacao = date('d/m/Y');
 
 R::store($usuario); // Salva o registro no banco
 

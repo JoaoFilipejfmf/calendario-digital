@@ -91,7 +91,7 @@
                 </div>
             </div>
             <!-- Additional Example Calendar -->
-            <div class="mt-12 text-center">
+            <!-- <div class="mt-12 text-center">
                 <h4 class="text-2xl font-semibold mb-4">Exemplo de Detalhes de Atividades</h4>
                 <div class="calendar-grid bg-white border rounded-lg p-4 max-w-2xl mx-auto">
                     <div class="bg-blue-200 p-4 rounded">Seg - Matemática: Revisão de álgebra (Material: Livro p.50)
@@ -103,7 +103,7 @@
                     <div class="bg-purple-200 p-4 rounded">Qui - Língua Portuguesa: Redação (Tópico: Meio Ambiente)
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
