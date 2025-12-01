@@ -5,6 +5,14 @@ const DashboardView = {
 
         const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
+            locale: 'pt-br',
+            views: {
+                dayGridMonth: {
+                    // Ao definir como 'false', o horário é suprimido, 
+                    // mas o título permanece visível.
+                    displayEventTime: false
+                }
+            },
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',

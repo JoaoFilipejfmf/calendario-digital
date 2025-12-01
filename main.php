@@ -10,6 +10,7 @@ if (!isset($_SESSION['usuario'])) {
 
 // Buscar informações do usuário e sua turma
 $usuario = $_SESSION['usuario'];
+$usuarioId = $usuario->id;
 
 // Buscar turma do usuário
 
@@ -171,7 +172,7 @@ require_once "carregar_turma_sessao.php";
         <section id="view-add" class="view-section hidden">
             <div class="bg-white rounded-lg shadow-md max-w-3xl mx-auto">
                 <div class="flex justify-between items-center p-6 border-b bg-gray-50 rounded-t-lg">
-                    <h3 class="text-xl font-bold text-gray-800">Nova Atividade</h3>
+                    <h3 id="modalTitleForm" class="text-xl font-bold text-gray-800">Nova Atividade</h3>
                     <button onclick="ViewManager.switch('view-dashboard')" class="text-gray-600 hover:text-blue-600 flex items-center gap-2">
                         <i class="fas fa-arrow-left"></i> Cancelar
                     </button>
@@ -185,7 +186,7 @@ require_once "carregar_turma_sessao.php";
                                     Título da Atividade
                                 </label>
                                 <input class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    id="activityTitle" type="text" placeholder="Ex: Prova de Matemática">
+                                    id="activityTitle" type="text" placeholder="Ex: Orações Subordinadas">
                             </div>
 
                             <div class="mb-4">
@@ -195,8 +196,10 @@ require_once "carregar_turma_sessao.php";
                                 <select class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     id="activityType">
                                     <option value="Avaliação">Avaliação</option>
+                                    <option value="Apresentação">Apresentação</option>
                                     <option value="Trabalho">Trabalho</option>
-                                    <option value="Atividade">Atividade</option>
+                                    <option value="Atividade">Atividade p/ Entrega</option>
+                                    <option value="Outro">Outro</option>
                                 </select>
                             </div>
 
@@ -206,9 +209,18 @@ require_once "carregar_turma_sessao.php";
                                 </label>
                                 <select class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     id="activitySubject">
+                                    <option value="Português">Língua Portuguesa</option>
                                     <option value="Matemática">Matemática</option>
-                                    <option value="Português">Português</option>
+                                    <option value="Física">Física</option>
+                                    <option value="Química">Química</option>
+                                    <option value="Biologia">Biologia</option>
                                     <option value="História">História</option>
+                                    <option value="Geografia">Geografia</option>
+                                    <option value="Filosofia">Filosofia</option>
+                                    <option value="Sociologia">Sociologia</option>
+                                    <option value="Literatura">Literatura</option>
+                                    <option value="Inglês">Inglês</option>
+                                    <option value="Artes">Artes</option>
                                 </select>
                             </div>
                         </div>
@@ -246,7 +258,7 @@ require_once "carregar_turma_sessao.php";
                             Descrição Detalhada
                         </label>
                         <textarea class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            id="activityDescription" rows="4" placeholder="Descreva os detalhes da atividade..."></textarea>
+                            id="activityDescription" rows="4" placeholder="Insira informações importantes, conteúdo detalhado, link para materiais de estudo e o que mais achar relevante..."></textarea>
                     </div>
                 </form>
 
@@ -442,8 +454,9 @@ require_once "carregar_turma_sessao.php";
 
     <script>
         window.AppConfig = {
+            usuarioId: <?= $usuarioId ?>,
             usuarioTurmaId: <?= $possui_turma ? $turma['id'] : 0 ?>,
-            isAdmin: <?= $possui_turma ? ($isAdmin ? "true" : "false") : "false" ?> // Ou injecte via PHP
+            isAdmin: <?= $possui_turma ? ($isAdmin ? "true" : "false") : "false" ?>
         };
     </script>
 

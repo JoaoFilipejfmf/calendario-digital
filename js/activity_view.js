@@ -1,12 +1,11 @@
 const ActivityView = {
+    currentActivity: null,
     // Função principal chamada ao clicar num evento no calendário
     show: function(idAtividade) {
-        // 1. Busca os dados (chama o backend)
         DataService.buscarDetalhes(idAtividade)
             .then(atividade => {
-                // 2. Preenche a tela
+                this.currentActivity = atividade;
                 this.render(atividade);
-                // 3. Troca a visualização para a tela de detalhes
                 ViewManager.switch('view-details');
             })
             .catch(error => {
@@ -38,34 +37,50 @@ const ActivityView = {
 
     // Configura os botões de Editar e Excluir
     setupActionButtons: function(atividade) {
-        const btnDelete = document.getElementById('deleteActivityBtn');
         const btnEdit = document.getElementById('editActivityBtn');
+        const btnDelete = document.getElementById('deleteActivityBtn');
+        const myId = window.AppConfig.usuarioId; // Certifique-se que isso existe
+        const isAdmin = window.AppConfig.isAdmin;
 
         // Se for professor, configura os cliques. Se não, esconde.
-        if (window.AppConfig.isProfessor) {
-            btnDelete.classList.remove('hidden');
+        if (atividade.criado_por == myId || isAdmin) {
             btnEdit.classList.remove('hidden');
-
-            // Remove listeners antigos para evitar duplicação (cloneNode hack)
-            // Ou simplesmente sobrescreve o onclick
-            btnDelete.onclick = () => this.handleDelete(atividade.id);
-            btnEdit.onclick = () => alert(`Editar atividade ${atividade.id} (Implementar lógica de edição)`);
+            btnDelete.classList.remove('hidden');
+            
+            // Atribui as ações
+            btnEdit.onclick = () => this.handleEdit();
+            btnDelete.onclick = () => this.handleDelete();
         } else {
-            btnDelete.classList.add('hidden');
             btnEdit.classList.add('hidden');
+            btnDelete.classList.add('hidden');
         }
     },
 
     // Lógica para excluir
-    handleDelete: function(id) {
-        if (confirm('Tem certeza que deseja excluir esta atividade?')) {
-            // Aqui você chamaria o DataService.excluir(id) - (precisaria criar essa função lá)
-            alert('Simulação: Atividade ' + id + ' excluída.');
-            // Volta para o dashboard
-            ViewManager.switch('view-dashboard');
-            // Recarrega o calendário (se necessário)
-            location.reload(); 
-        }
+    handleDelete: async function() {
+        if(!confirm("Tem certeza que deseja excluir esta atividade?")) return;
+
+        try {
+            const response = await fetch('excluir_atividade.php', {
+                method: 'POST',
+                body: JSON.stringify({ id: this.currentActivity.id }) // ou idatividade dependendo do seu banco
+            });
+            const data = await response.json();
+            
+            if(data.success) {
+                alert("Atividade excluída.");
+                ViewManager.switch('view-dashboard');
+                location.reload(); // Recarrega calendário
+            } else {
+                alert(data.error);
+            }
+        } catch(e) { console.error(e); }
+    },
+
+    handleEdit: function() {
+        // Chama o formulário de adição, mas em "modo edição"
+        // Precisamos criar essa função no AddActivityView
+        AddActivityView.edit(this.currentActivity);
     },
 
     // Helper: Formata a data (trazido do seu código original)
